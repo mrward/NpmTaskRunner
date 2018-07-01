@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Text;
-using EnvDTE;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace NpmTaskRunner.Helpers
-{
+{/*
     internal class VsTextViewTextUtil : ITextUtil
     {
         private int _currentLineLength;
@@ -152,5 +146,5 @@ namespace NpmTaskRunner.Helpers
             hr = target.Exec(ref cmdid, (uint) VSConstants.VSStd2KCmdID.FORMATSELECTION, 0, IntPtr.Zero, IntPtr.Zero);
             _view.SetSelection(oldStartLine, oldStartLineOffset, oldEndLine, oldEndLineOffset);
         }
-    }
+    }*/
 }

@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace NpmTaskRunner.Helpers
 {
     public static class TextViewUtil
-    {
+    {/*
         public static IVsTextView FindTextViewFor(string filePath)
         {
             IVsWindowFrame frame = FindWindowFrame(filePath);
@@ -93,6 +89,6 @@ namespace NpmTaskRunner.Helpers
             }
 
             return false;
-        }
+        }*/
     }
 }

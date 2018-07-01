@@ -1,0 +1,14 @@
+<ExtensionModel>
+    <Runtime>
+        <Import assembly="MonoDevelop.NpmTaskRunner.dll" />
+    </Runtime>
+
+    <Extension path="/MonoDevelop/Ide/Composition">
+        <Assembly file="MonoDevelop.NpmTaskRunner.dll" />
+    </Extension>
+
+    <Extension path="/MonoDevelop/Core/StockIcons">
+        <StockIcon stockid="md-npm-task-runner" resource="npm.png" size="Menu" />
+        <StockIcon stockid="md-yarn-task-runner" resource="yarn.png" size="Menu" />
+    </Extension>
+</ExtensionModel>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="MonoDevelop.References.props" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{013CC14B-4BDB-44EF-AF28-3A7E7BB6B689}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MonoDevelop.NpmTaskRunner</RootNamespace>
+    <AssemblyName>MonoDevelop.NpmTaskRunner</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="MonoDevelop.TaskRunner">
+      <HintPath>..\..\monodevelop-task-runner-addin\bin\MonoDevelop.TaskRunner.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AddinInfo.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="TaskRunner\Helpers\BindingsPersister.cs" />
+    <Compile Include="TaskRunner\Helpers\FileTextUtil.cs" />
+    <Compile Include="TaskRunner\Helpers\ITextUtil.cs" />
+    <Compile Include="TaskRunner\Helpers\LineRange.cs" />
+    <Compile Include="TaskRunner\Helpers\Range.cs" />
+    <Compile Include="TaskRunner\Helpers\TaskRunnerConfig.cs" />
+    <Compile Include="TaskRunner\Helpers\TaskRunnerConfigBase.cs" />
+    <Compile Include="TaskRunner\Helpers\TaskRunnerOption.cs" />
+    <Compile Include="TaskRunner\Helpers\TextUtilExtensions.cs" />
+    <Compile Include="TaskRunner\Helpers\TextViewUtil.cs" />
+    <Compile Include="TaskRunner\Helpers\VsTextViewTextUtil.cs" />
+    <Compile Include="TaskRunner\TaskNode.cs" />
+    <Compile Include="TaskRunner\TaskParser.cs" />
+    <Compile Include="TaskRunner\TaskRunnerProvider.cs" />
+    <Compile Include="VSCommandTable.cs" />
+    <Compile Include="source.extension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\MonoDevelop.NpmTaskRunner.addin.xml" />
+    <EmbeddedResource Include="Resources\npm.png">
+      <LogicalName>npm.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\yarn.png">
+      <LogicalName>yarn.png</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

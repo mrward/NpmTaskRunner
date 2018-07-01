@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Windows.Media;
 using Microsoft.VisualStudio.TaskRunnerExplorer;
+using MonoDevelop.Core;
 
 namespace NpmTaskRunner.Helpers
 {
     public abstract class TaskRunnerConfigBase : ITaskRunnerConfig
     {
-        private static ImageSource SharedIcon;
-
         private ITaskRunnerCommandContext _context;
 
         protected TaskRunnerConfigBase(ITaskRunnerCommandContext context, ITaskRunnerNode hierarchy)
@@ -19,7 +17,7 @@ namespace NpmTaskRunner.Helpers
         /// <summary>
         /// TaskRunner icon
         /// </summary>
-        public virtual ImageSource Icon => SharedIcon ?? (SharedIcon = LoadRootNodeIcon());
+        public IconId Icon { get; protected set; }
 
         public ITaskRunnerNode TaskHierarchy { get; }
 
@@ -55,11 +53,6 @@ namespace NpmTaskRunner.Helpers
 
         protected virtual void Dispose(bool isDisposing)
         {
-        }
-
-        protected virtual ImageSource LoadRootNodeIcon()
-        {
-            return null;
         }
     }
 }

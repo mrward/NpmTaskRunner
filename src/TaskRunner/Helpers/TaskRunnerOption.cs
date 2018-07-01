@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TaskRunnerExplorer;
+using MonoDevelop.Core;
 
 namespace NpmTaskRunner.Helpers
 {
@@ -13,6 +14,7 @@ namespace NpmTaskRunner.Helpers
             Name = optionName;
             Enabled = isEnabled;
             Checked = isEnabled;
+            Description = Name;
         }
 
         public string Command { get; set; }
@@ -26,5 +28,9 @@ namespace NpmTaskRunner.Helpers
         public uint Id { get; }
 
         public string Name { get; }
+
+        public IconId Icon { get; }
+
+        public string Description { get; }
     }
 }

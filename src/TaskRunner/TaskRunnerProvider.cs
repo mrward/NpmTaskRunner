@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Microsoft.VisualStudio.TaskRunnerExplorer;
 using NpmTaskRunner.Helpers;
+using MonoDevelop.Core;
 
 namespace NpmTaskRunner
 {
     [TaskRunnerExport(Constants.FILENAME)]
     class TaskRunnerProvider : ITaskRunner
     {
-        private ImageSource _icon;
+        private IconId _icon;
         private List<ITaskRunnerOption> _options = null;
 
         private void InitializeNpmTaskRunnerOptions()
@@ -105,9 +104,13 @@ namespace NpmTaskRunner
         {
             string colorConfig = (isNpm ? "--color=always" : string.Empty);
 
+            int index = cmd.IndexOf(' ');
+            string cliCommandName = cmd.Substring (0, index);
+            string args = cmd.Substring (index + 1);
+
             return new TaskNode(name, !string.IsNullOrEmpty(cmd), isNpm)
             {
-                Command = new TaskRunnerCommand(cwd, "cmd.exe", $"/c {cmd} {colorConfig}"),
+                Command = new TaskRunnerCommand(cwd, $"{cliCommandName}", $"{args} {colorConfig}"),
                 Description = $"Runs the '{name}' command"
             };
         }
@@ -167,6 +170,6 @@ namespace NpmTaskRunner
         }
 
         private void SetRootNodeIcon(string cliCommandName) =>
-            _icon = new BitmapImage(new Uri($@"pack://application:,,,/NpmTaskRunner;component/Resources/{cliCommandName}.png"));
+            _icon = $@"md-{cliCommandName}-task-runner";
     }
 }

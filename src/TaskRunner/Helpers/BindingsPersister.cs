@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.VisualStudio.TextManager.Interop;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -13,17 +12,17 @@ namespace NpmTaskRunner.Helpers
 
         public static string Load(string configPath)
         {
-            IVsTextView configTextView = TextViewUtil.FindTextViewFor(configPath);
+            //IVsTextView configTextView = TextViewUtil.FindTextViewFor(configPath);
             ITextUtil textUtil;
 
-            if (configTextView != null)
-            {
-                textUtil = new VsTextViewTextUtil(configTextView);
-            }
-            else
-            {
+            //if (configTextView != null)
+            //{
+            //    textUtil = new VsTextViewTextUtil(configTextView);
+            //}
+            //else
+            //{
                 textUtil = new FileTextUtil(configPath);
-            }
+            //}
 
             string fileText = textUtil.ReadAllText();
             JObject body = JObject.Parse(fileText);
@@ -65,14 +64,14 @@ namespace NpmTaskRunner.Helpers
                 }
             }
 
-            IVsTextView configTextView = TextViewUtil.FindTextViewFor(configPath);
+            //IVsTextView configTextView = TextViewUtil.FindTextViewFor(configPath);
             ITextUtil textUtil;
 
-            if (configTextView != null)
-            {
-                textUtil = new VsTextViewTextUtil(configTextView);
-            }
-            else
+            //if (configTextView != null)
+            //{
+            //    textUtil = new VsTextViewTextUtil(configTextView);
+            //}
+            //else
             {
                 textUtil = new FileTextUtil(configPath);
             }
