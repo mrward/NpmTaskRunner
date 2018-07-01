@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Text;
+using MonoDevelop.Ide.Gui;
+using MonoDevelop.Ide.Editor;
 
 namespace NpmTaskRunner.Helpers
-{/*
+{
     internal class VsTextViewTextUtil : ITextUtil
     {
         private int _currentLineLength;
         private int _lineNumber;
-        private IVsTextView _view;
+        private Document _document;
 
-        public VsTextViewTextUtil(IVsTextView view)
+        public VsTextViewTextUtil(Document document)
         {
-            _view = view;
+            _document = document;
         }
 
         public Range CurrentLineRange
@@ -23,7 +25,8 @@ namespace NpmTaskRunner.Helpers
         {
             try
             {
-                GetEditPointForRange(range)?.Delete(range.LineRange.Length);
+                int offset = _document.Editor.LocationToOffset(range.LineNumber + 1, range.LineRange.Start + 1);
+                _document.Editor.RemoveText(offset, range.LineRange.Length);
                 return true;
             }
             catch
@@ -36,7 +39,9 @@ namespace NpmTaskRunner.Helpers
         {
             try
             {
-                GetEditPointForRange(position)?.Insert(text + (addNewline ? Environment.NewLine : string.Empty));
+                int offset = _document.Editor.LocationToOffset(position.LineNumber + 1, position.LineRange.Start + 1);
+                string lineEnd = (addNewline ? Environment.NewLine : string.Empty);
+                _document.Editor.InsertText(offset, text +lineEnd);
                 return true;
             }
             catch
@@ -47,47 +52,19 @@ namespace NpmTaskRunner.Helpers
 
         public bool TryReadLine(out string line)
         {
-            IVsTextLines textLines;
-            int hr = _view.GetBuffer(out textLines);
+            int lineCount = _document.Editor.LineCount;
 
-            if (hr != VSConstants.S_OK || textLines == null)
-            {
-                line = null;
-                return false;
-            }
-
-            int lineCount;
-            hr = textLines.GetLineCount(out lineCount);
-
-            if (hr != VSConstants.S_OK || _lineNumber == lineCount)
+            if (_lineNumber == lineCount)
             {
                 line = null;
                 return false;
             }
 
             int lineNumber = _lineNumber++;
-            hr = textLines.GetLengthOfLine(lineNumber, out _currentLineLength);
+            IDocumentLine documentLine = _document.Editor.GetLine(lineNumber + 1);
+            _currentLineLength = documentLine.Length;
 
-            if(hr != VSConstants.S_OK)
-            {
-                line = null;
-                return false;
-            }
-
-            hr = textLines.GetLineText(lineNumber, 0, lineNumber, _currentLineLength, out line);
-
-            if (hr != VSConstants.S_OK)
-            {
-                line = null;
-                return false;
-            }
-
-            LINEDATA[] lineData = new LINEDATA[1];
-            textLines.GetLineData(lineNumber, lineData, null);
-            if (lineData[0].iEolType != EOLTYPE.eolNONE)
-            {
-                line += "\n";
-            }
+            line = _document.Editor.GetLineText(documentLine);
 
             return true;
         }
@@ -109,42 +86,9 @@ namespace NpmTaskRunner.Helpers
             _lineNumber = 0;
         }
 
-        private EditPoint GetEditPointForRange(Range range)
-        {
-            IVsTextLines textLines;
-            int hr = _view.GetBuffer(out textLines);
-
-            if (hr != VSConstants.S_OK || textLines == null)
-            {
-                return null;
-            }
-
-            object editPointObject;
-            hr = textLines.CreateEditPoint(range.LineNumber, range.LineRange.Start, out editPointObject);
-            EditPoint editPoint = editPointObject as EditPoint;
-
-            if (hr != VSConstants.S_OK || editPoint == null)
-            {
-                return null;
-            }
-
-            return editPoint;
-        }
-
         public void FormatRange(LineRange range)
         {
             Reset();
-            int startLine, startLineOffset, endLine, endLineOffset;
-            this.GetExtentInfo(range.Start, range.Length, out startLine, out startLineOffset, out endLine, out endLineOffset);
-
-            int oldStartLine, oldStartLineOffset, oldEndLine, oldEndLineOffset;
-            _view.GetSelection(out oldStartLine, out oldStartLineOffset, out oldEndLine, out oldEndLineOffset);
-            _view.SetSelection(startLine, startLineOffset, endLine, endLineOffset);
-            IOleCommandTarget target = (IOleCommandTarget) ServiceProvider.GlobalProvider.GetService(typeof (SUIHostCommandDispatcher));
-            Guid cmdid = VSConstants.VSStd2K;
-            int hr = _view.SendExplicitFocus();
-            hr = target.Exec(ref cmdid, (uint) VSConstants.VSStd2KCmdID.FORMATSELECTION, 0, IntPtr.Zero, IntPtr.Zero);
-            _view.SetSelection(oldStartLine, oldStartLineOffset, oldEndLine, oldEndLineOffset);
         }
-    }*/
+    }
 }

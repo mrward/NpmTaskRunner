@@ -3,6 +3,8 @@ using System.Linq;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using MonoDevelop.Ide;
+using MonoDevelop.Ide.Gui;
 
 namespace NpmTaskRunner.Helpers
 {
@@ -12,17 +14,17 @@ namespace NpmTaskRunner.Helpers
 
         public static string Load(string configPath)
         {
-            //IVsTextView configTextView = TextViewUtil.FindTextViewFor(configPath);
+            Document configDocument = IdeApp.Workbench.GetDocument(configPath);
             ITextUtil textUtil;
 
-            //if (configTextView != null)
-            //{
-            //    textUtil = new VsTextViewTextUtil(configTextView);
-            //}
-            //else
-            //{
+            if (configDocument != null)
+            {
+                textUtil = new VsTextViewTextUtil(configDocument);
+            }
+            else
+            {
                 textUtil = new FileTextUtil(configPath);
-            //}
+            }
 
             string fileText = textUtil.ReadAllText();
             JObject body = JObject.Parse(fileText);
@@ -64,14 +66,14 @@ namespace NpmTaskRunner.Helpers
                 }
             }
 
-            //IVsTextView configTextView = TextViewUtil.FindTextViewFor(configPath);
+            Document configDocument = IdeApp.Workbench.GetDocument(configPath);
             ITextUtil textUtil;
 
-            //if (configTextView != null)
-            //{
-            //    textUtil = new VsTextViewTextUtil(configTextView);
-            //}
-            //else
+            if (configDocument != null)
+            {
+                textUtil = new VsTextViewTextUtil(configDocument);
+            }
+            else
             {
                 textUtil = new FileTextUtil(configPath);
             }
