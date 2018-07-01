@@ -102,7 +102,7 @@ namespace NpmTaskRunner
 
         private static TaskNode CreateTask(string cwd, string name, string cmd, bool isNpm)
         {
-            string colorConfig = (isNpm ? "--color=always" : string.Empty);
+            string colorConfig = (isNpm ? "--color=false" : string.Empty);
 
             int index = cmd.IndexOf(' ');
             string cliCommandName = cmd.Substring (0, index);
