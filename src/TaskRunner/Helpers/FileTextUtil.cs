@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace NpmTaskRunner.Helpers
 {
@@ -102,7 +103,14 @@ namespace NpmTaskRunner.Helpers
 
         public string ReadAllText()
         {
-            return File.ReadAllText(_filename);
+            Reset();
+            var text = new StringBuilder();
+            string line;
+            while (TryReadLine(out line))
+            {
+                text.Append(line);
+            }
+            return text.ToString();
         }
 
         public void Reset()
