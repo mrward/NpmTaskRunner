@@ -174,7 +174,7 @@ namespace NpmTaskRunner.Helpers
             textUtil.Reset();
             int lineNumber = 0, charCount = 0, lineCharCount = 0;
             string line;
-            while (textUtil.TryReadLine(out line) && charCount < startIndex)
+            while (textUtil.TryReadLine(out line) && charCount <= startIndex)
             {
                 ++lineNumber;
                 charCount += line.Length;
