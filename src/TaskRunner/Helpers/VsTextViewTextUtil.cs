@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text;
-using MonoDevelop.Ide.Gui;
+using MonoDevelop.Ide;
+using MonoDevelop.Ide.CodeFormatting;
 using MonoDevelop.Ide.Editor;
+using MonoDevelop.Ide.Gui;
 
 namespace NpmTaskRunner.Helpers
 {
@@ -89,6 +91,15 @@ namespace NpmTaskRunner.Helpers
         public void FormatRange(LineRange range)
         {
             Reset();
+
+            int startLine, startLineOffset, endLine, endLineOffset;
+            this.GetExtentInfo(range.Start, range.Length, out startLine, out startLineOffset, out endLine, out endLineOffset);
+
+            var anchor = new DocumentLocation(startLine + 1, startLineOffset + 1);
+            var lead = new DocumentLocation(endLine + 1, endLineOffset + 1);
+            _document.Editor.SetSelection(anchor, lead);
+
+            IdeApp.CommandService.DispatchCommand(CodeFormattingCommands.FormatBuffer);
         }
     }
 }
